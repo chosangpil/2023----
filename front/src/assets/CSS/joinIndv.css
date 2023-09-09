@@ -1,0 +1,66 @@
+
+
+.join-indv {
+    text-align: left;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+.academicLevel-label {
+    font-size: smaller;
+}
+
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.career-form-group {
+    margin-bottom: 7px;
+}
+
+.last-career-form-group {
+    margin-bottom: 25px;
+}
+
+.btn-gender {
+    /* button-variant="outline-primary" name="radio-btn-outline"*/
+}
+
+.AcademicCareer-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.career-label {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+.career-btn {
+    all: unset;
+    line-height: 2px !important;
+    text-align: center !important;
+    font-size: 13px !important;
+    height: 10px;
+    margin-left: 3px !important;
+}
+
+.career-btn:nth-child(1) {
+    background-color:#9ec4f3;
+    border: 1px solid #9ec4f3;
+}
+
+.career-btn:nth-child(2) {
+    background-color: #ededed;
+    border: 1px solid #ededed;
+    color: gray;
+}
+
+.joinButton {
+    width: 100%;
+}

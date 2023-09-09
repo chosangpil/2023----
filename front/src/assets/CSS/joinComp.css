@@ -1,0 +1,23 @@
+body {
+    background-color: #dfe7f2 !important;
+}
+
+.join-comp {
+    text-align: left;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+.comp-select {
+    width: 100%;
+    font-size: 20px;
+    border: 1px solid black;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.06);
+    transition: all 200ms linear;
+}
+
+.joinButton {
+    width: 100%;
+    margin-top: 25px;
+}

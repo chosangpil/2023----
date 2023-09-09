@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TestApp2Application<Test_App2>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.gg.TestApp2Application",
+            "projectName": "Test_App2",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

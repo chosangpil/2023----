@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="UserMapper">
+	<!-- 개인회원 로그인(계정정보 조회) -->
+	<select id="loginIndv" resultType="user">
+		SELECT P_ID as ID, P_PW as PW, 0 as user_code
+		FROM PERSONAL
+	</select>
+	
+	<!-- 기업회원 로그인(계정정보 조회) -->
+	<select id="loginComp" resultType="user">
+		SELECT CO_ID as ID, CO_PW as PW, 1 as user_code
+		FROM COMPANY
+	</select>
+	
+	<!-- 관리자 로그인(계정정보 조회) -->
+	<select id="Manager" resultType="user">
+		SELECT M_ID as ID, M_PW as PW, 2 as user_code
+		FROM Manager
+	</select>
+
+	<!-- 고객사 게시판 조회 -->
+	<select id="compList" resultType="CompanyList"> 
+		SELECT CO_NO, COMPANY, HR, CO_EMAIL, CATEGORY_ID, SIZE_ID ,CO_ID 
+		FROM COMPANY
+		WHERE COMPANY.CATEGORY_ID = COMPANY.CATEGORY_ID and COMPANY.SIZE_ID = COMPANY.SIZE_ID; 
+	</select>
+	
+	<!-- 특정 기업의 CO_NO 조회 -->
+	<select id="compNo" parameterType="String" resultType="CompanyList"> 
+		SELECT *  
+		FROM COMPANY
+		WHERE CO_ID = #{co_id}
+	</select>
+
+	<!-- 채용공고 게시판 조회 -->
+	<select id="postList" resultType="jobPost">
+		SELECT POST_NO, COMPANY, POSITION, QUALIFY, EMPLOY_TYPE, REGI_DT 
+		FROM NOTICE_post, COMPANY
+		WHERE NOTICE_POST.CO_ID = COMPANY.CO_ID; 
+	</select>
+	<!--특정 회사의 채용공고 -->	
+	<select id="compostList" parameterType="String" resultType="jobPost">
+		SELECT POST_NO,COMPANY, POSITION, QUALIFY, EMPLOY_TYPE, REGI_DT 
+		FROM NOTICE_POST,COMPANY
+		WHERE NOTICE_POST.CO_ID=#{co_ID} and COMPANY.CO_ID=#{co_ID}; 	
+	</select>
+	<!-- 게시글 수정 -->
+	<update id="modifyPos" parameterType="modify">
+		UPDATE NOTICE_POST 
+		SET POSITION=#{POSITION},EMPLOY_TYPE=#{EMPLOY_TYPE},JOB=#{JOB},REGI_DT=#{REGI_DT},
+		QUALIFY=#{QUALIFY}
+		WHERE NOTICE_POST.POST_NO=#{POST_NO}
+	</update>
+		<!-- 게시글 삭제 -->
+	<delete id="DeletePos" parameterType="delete">
+		DELETE
+		FROM NOTICE_POST 
+		WHERE NOTICE_POST.POST_NO=#{POST_NO}
+	</delete>
+	<!-- 포지션 DB 등록 -->
+	<insert id="insertPos" parameterType="position">
+		<!--INSERT INTO NOTICE_POST(POSITION, QUALIFY, EMPLOY_TYPE,	JOB, REGI_DT, created_at, updated_at, CO_NO)
+		VALUES( #{POSITION}, #{QUALIFY}, #{EMPLOY_TYPE}, #{JOB},
+		 #{REGI_DT}, now(), now(), #{CO_NO} )	
+		-->
+		INSERT INTO NOTICE_POST(POST_NO, QUALIFY, EMPLOY_TYPE,	JOB, REGI_DT, POSITION, CO_ID,CO_NO,created_at,updated_at)
+		VALUES( #{POST_NO}, #{QUALIFY}, #{EMPLOY_TYPE}, #{JOB},
+		 #{REGI_DT}, #{POSITION}, #{CO_ID},#{CO_NO},now(),now() )
+	</insert>
+
+	<!-- 게시판 보기 -->
+	<select id="getDetail" parameterType="int" resultType="jobDetail">
+		SELECT *
+		FROM NOTICE_POST
+		WHERE #{post_NO}=NOTICE_POST.POST_NO; 
+	</select>
+
+	<!-- 기업회원 가입 -->
+	<insert id="insertComp" parameterType="CompUser">
+		INSERT INTO COMPANY(CO_ID, CO_PW, COMPANY, HR, CO_EMAIL, CO_NUMBER, CATEGORY_ID, SIZE_ID,CO_NO)
+		VALUES( #{CO_ID}, #{CO_PW}, #{COMPANY}, #{HR},
+		 #{CO_EMAIL}, #{CO_NUMBER}, #{CATEGORY_ID}, #{SIZE_ID},#{CO_NO} )
+	</insert>
+
+	<!-- 개인회원 가입 -->
+	<insert id="insertIndv" parameterType="IndvUser">
+		INSERT INTO PERSONAL(P_ID, P_PW, NAME, P_EMAIL, PHONE, BIRTH_DATE, GENDER,reg_data)
+		VALUES( #{P_ID}, #{P_PW}, #{NAME}, #{P_EMAIL},
+		 #{PHONE}, #{BIRTH_DATE},  #{GENDER},CURDATE())
+	</insert>
+	
+	<insert id="insertCareer" parameterType="careerInfo">
+		INSERT INTO CAREER(P_ID, P_COMPANY, P_DEPARTMENT, P_DUTY)
+		VALUES(#{P_ID}, #{P_COMPANY}, #{P_DEPARTMENT}, #{P_DUTY})
+	</insert>
+	
+	<insert id="insertAcademic" parameterType="academicCareerInfo">
+		INSERT INTO HAKSA(P_ID, DEGREE, SCHOOL_NAME, MAJOR, ADMISSION_DATE, GRADUATION_DATE)
+		VALUES(#{P_ID}, #{DEGREE}, #{SCHOOL_NAME}, #{MAJOR}, #{ADMISSION_DATE}, #{GRADUATION_DATE})
+	</insert>
+	
+	<!-- MyPage (개인회원) -->
+	<select id="getIndv" parameterType="String" resultType="IndvUser">
+		SELECT *
+		FROM PERSONAL
+		WHERE #{userID}=PERSONAL.P_ID; 
+	</select>
+	<select id="getIndvCI" parameterType="String" resultType="careerInfo">
+		SELECT *
+		FROM CAREER
+		WHERE #{userID}=CAREER.P_ID; 
+	</select>
+	<select id="getIndvACI" parameterType="String" resultType="academicCareerInfo">
+		SELECT *
+		FROM HAKSA
+		WHERE #{userID}=HAKSA.P_ID; 
+	</select>
+	
+	<!-- MyPage (기업회원) -->
+	<select id="getComp" parameterType="String" resultType="compUser">
+		SELECT *
+		FROM COMPANY
+		WHERE #{userID}=COMPANY.CO_ID; 
+	</select>
+		<select id="getComDetail" parameterType="String" resultType="ComDetail"> 
+		SELECT *  
+		FROM COMPANY
+		WHERE CO_ID = #{co_id}
+	</select>
+	
+</mapper>
